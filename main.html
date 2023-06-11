@@ -58,27 +58,47 @@
       };
     }
 
-	  function callme() {
-		    const images = document.getElementsByTagName("img");
-		    let arr = []
-		    for(let i = 0 ; i < images.length; i++){
-		        arr.push(images[i])
-		    }
-		    const activeNotAppliedImages = arr.filter(image => {
-		        return !image.className.split(" ").includes("active")
-		    })
-		    const visibleImages =  activeNotAppliedImages.filter((image) => {
-		        const rect = image.getBoundingClientRect();
-		        return rect.top >= 0 && rect.top <= window.innerHeight - image.height;
-		    })  
-		    visibleImages.forEach((image) => {
-		        image.className = image.className + " active";
-		    })
-		}
+	 //  function callme() {
+		//     const images = document.getElementsByTagName("img");
+		//     let arr = []
+		//     for(let i = 0 ; i < images.length; i++){
+		//         arr.push(images[i])
+		//     }
+		//     const activeNotAppliedImages = arr.filter(image => {
+		//         return !image.className.split(" ").includes("active")
+		//     })
+		//     const visibleImages =  activeNotAppliedImages.filter((image) => {
+		//         const rect = image.getBoundingClientRect();
+		//         return rect.top >= 0 && rect.top <= window.innerHeight - image.height;
+		//     })  
+		//     visibleImages.forEach((image) => {
+		//         image.className = image.className + " active";
+		//     })
+		// }
 
-		const callback = debounce(callme)
+		// const callback = debounce(callme)
 
-		  window.addEventListener("scroll", callback)
+		//   window.addEventListener("scroll", callback)
+	  function checkSlide(e) {
+const images = document.querySelectorAll(".slide-in");
+
+images.forEach((image) => {
+// Halfway through the image
+const slideInAt =
+window.scrollY + window.innerHeight - image.height / 2;
+// Bottom of the image
+const imageBottom = image.offsetTop + image.height;
+const isHalfShown = slideInAt > image.offsetTop;
+const isNotScrolledPast = window.scrollY < imageBottom;
+if (isHalfShown && isNotScrolledPast) {
+image.classList.add("active");
+} else {
+image.classList.remove("active");
+}
+});
+}
+
+window.addEventListener("scroll", debounce(checkSlide));
 
   </script>
 
